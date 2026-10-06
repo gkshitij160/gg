@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gujarat 10 din mein: Kanpur se Dwarka, Somnath aur White Rann</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#eef2f4; --surface:#ffffff; --ink:#12202b; --muted:#506370; --line:#d3dce2;
+  --sea:#cfe3ec; --land:#efe5cc; --land-edge:#b9a77a; --rann:#fbfcfc; --rann-line:#b8c7cf;
+  --accent:#c98400; --indigo:#1f3f66; --teal:#17806f; --chip:#e3eaee; --via:#6b7a8c;
+  --head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Public Sans","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1721; --surface:#12232f; --ink:#e9eff3; --muted:#9db0bc; --line:#25384a;
+    --sea:#0e2636; --land:#27363a; --land-edge:#4d5f60; --rann:#3b4f5c; --rann-line:#5a7384;
+    --accent:#f0b429; --indigo:#8fb4e8; --teal:#4fc4b0; --chip:#1b2f3d; --via:#9db0bc;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b1721; --surface:#12232f; --ink:#e9eff3; --muted:#9db0bc; --line:#25384a;
+  --sea:#0e2636; --land:#27363a; --land-edge:#4d5f60; --rann:#3b4f5c; --rann-line:#5a7384;
+  --accent:#f0b429; --indigo:#8fb4e8; --teal:#4fc4b0; --chip:#1b2f3d; --via:#9db0bc;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 12px);height:auto}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+.wrap{max-width:1040px;margin:0 auto;padding:20px 16px 56px}
+header.top{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+h1{font-family:var(--head);font-weight:800;font-size:clamp(28px,5.4vw,46px);line-height:1.05;margin:0 0 8px;letter-spacing:-.02em;max-width:18ch}
+.sub{margin:0;color:var(--muted);max-width:58ch}
+.btn{font:600 14px var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:9px 14px;border-radius:999px;cursor:pointer}
+.btn:hover{border-color:var(--indigo)}
+.btn:focus-visible,.chip:focus-visible,input[type=range]:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--indigo);border-color:var(--indigo);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#0b1721}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{color:#0b1721}}
+
+.mapcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.maphud{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line)}
+.hud-day{font-family:var(--head);font-weight:700;font-size:18px;line-height:1.2}
+.hud-meta{color:var(--muted);font-size:14px}
+.hud-distance{margin-top:2px;font-size:13px;font-weight:600;color:var(--muted)}
+.mapbox{background:var(--sea);position:relative}
+svg.map{display:block;width:100%;height:auto;max-height:78vh;touch-action:pan-y}
+.map-actions{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px 0}
+.map-actions .btn{min-height:40px;padding:7px 12px;font-size:13px}
+.land{fill:var(--land);stroke:var(--land-edge);stroke-width:calc(1.4px * var(--k,1));stroke-linejoin:round}
+.rann{fill:url(#salt);stroke:var(--rann-line);stroke-width:calc(1px * var(--k,1));stroke-dasharray:3 3}
+.ghost{fill:none;stroke:var(--muted);stroke-width:calc(1.6px * var(--k,1));stroke-dasharray:2 6;stroke-linecap:round;opacity:.55}
+.route{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pin-label{font-family:var(--body);font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--land);stroke-linejoin:round}
+.sea-label{font-family:var(--body);font-style:italic;font-weight:500;font-size:calc(12px * var(--k,1));fill:var(--muted);opacity:.85}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 1.8s ease-out infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.2);opacity:0}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px 14px}
+.chip{font:600 13px var(--body);min-height:40px;border:1px solid var(--line);background:var(--chip);color:var(--ink);padding:7px 11px;border-radius:999px;cursor:pointer}
+.chip[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 6px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.fact b{display:block;font-family:var(--head);font-size:20px;line-height:1.2}
+.fact span{font-size:13px;color:var(--muted)}
+
+h2{font-family:var(--head);font-weight:700;font-size:26px;margin:34px 0 6px;letter-spacing:-.01em}
+.lede{margin:0 0 12px;color:var(--muted);max-width:66ch}
+.cities{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.city{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.city h4{font-family:var(--head);font-size:16px;margin:0 0 2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.city p{margin:0;font-size:14px;color:var(--muted)}
+.badge{font:600 11.5px var(--body);padding:1px 8px;border-radius:999px;color:#fff;background:var(--via)}
+.badge.stay{background:var(--indigo)}
+.badge.stop{background:var(--teal)}
+:root[data-theme="dark"] .badge.stay,:root[data-theme="dark"] .badge.stop{color:#0b1721}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .badge.stay,:root:not([data-theme="light"]) .badge.stop{color:#0b1721}}
+.city small{display:block;margin-top:4px;font-size:12.5px;color:var(--muted)}
+
+.days{display:grid;gap:12px}
+.day{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c,var(--indigo));border-radius:14px;padding:14px 16px;scroll-margin-top:12px}
+.day.active{box-shadow:0 0 0 2px var(--c,var(--indigo))}
+.day-head{display:flex;gap:10px 14px;align-items:baseline;flex-wrap:wrap}
+.day-n{font-family:var(--head);font-weight:800;font-size:15px;color:var(--c,var(--indigo))}
+.day h3{font-family:var(--head);font-weight:700;font-size:19px;margin:0;line-height:1.25}
+.day-stat{margin-left:auto;font-size:13px;color:var(--muted);white-space:nowrap}
+.via,.best{margin:8px 0 0;font-size:14px}
+.via b,.best b{font-weight:600}
+.best{background:var(--chip);border-radius:8px;padding:6px 10px}
+.day ul{list-style:none;margin:10px 0 0;padding:0}
+.day li{display:grid;grid-template-columns:84px 1fr;gap:10px;padding:5px 0;border-top:1px dashed var(--line)}
+.day li:first-child{border-top:0}
+.day li time{font-weight:600;font-size:13px;color:var(--muted);padding-top:2px}
+.uniq{display:inline-block;font:600 11.5px var(--body);background:var(--accent);color:#1b1200;padding:0 7px;border-radius:999px;margin-left:6px;vertical-align:1px}
+.tip{margin:10px 0 0;font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.official-links{margin:10px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--muted)}
+.official-links a{color:var(--indigo);text-underline-offset:2px}
+.official-links a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.must{display:inline-block;font-size:12px;font-weight:600;background:var(--accent);color:#1b1200;padding:1px 8px;border-radius:999px;margin-left:6px;vertical-align:1px}
+
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;margin-top:12px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:13px}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:12px}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.note h4{font-family:var(--head);font-size:16px;margin:0 0 6px}
+.note p{margin:0;font-size:14.5px;color:var(--muted)}
+footer{margin-top:30px;font-size:13px;color:var(--muted)}
+@media (max-width:560px){
+  .day li{grid-template-columns:70px 1fr}
+  .day-stat{margin-left:0;white-space:normal}
+  .sea-label{font-size:calc(18px * var(--k,1))}
+}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Gujarat 10 din mein</h1>
+      <p class="sub">Kanpur se Ahmedabad train; phir Gujarat loop: Statue of Unity, White Rann, Dwarka, Nageshwar, Somnath aur Gir.</p>
+    </div>
+  </header>
+
+  <section class="mapcard" aria-label="Animated route map">
+    <div class="maphud">
+      <div>
+        <div class="hud-day" id="hudDay">Day 1: Kanpur se Ahmedabad</div>
+        <div class="hud-meta" id="hudMeta">Train, ~24 ghante</div>
+        <div class="hud-distance" id="hudDistance">~1,000 km · train ~24 ghante</div>
+      </div>
+    </div>
+    <div class="mapbox">
+      <svg class="map" id="map" viewBox="0 0 680 540" role="img" aria-label="Ahmedabad se Statue of Unity, Kutch, Dwarka, Somnath aur Gir ka route">
+        <defs>
+          <pattern id="salt" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="8" height="8" fill="var(--rann)"/>
+            <line x1="0" y1="0" x2="0" y2="8" stroke="var(--rann-line)" stroke-width="1.2" opacity=".6"/>
+          </pattern>
+        </defs>
+        <g id="rannG"></g>
+        <g id="landG"></g>
+        <g id="seaLabels"></g>
+        <g id="ghostG"></g>
+        <g id="routeG"></g>
+        <g id="pinG"></g>
+        <g id="markerG"></g>
+      </svg>
+    </div>
+    <div class="map-actions">
+      <button class="btn" id="mapViewBtn" type="button" aria-label="Poora map ek saath dekhein">Map</button>
+      <button class="btn primary" id="overviewBtn" type="button">Poori trip</button>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Day chuno"></div>
+  </section>
+
+  <div class="facts">
+    <div class="fact"><b>8 din</b><span>Gujarat mein, zameen par</span></div>
+    <div class="fact"><b>~2,050 km</b><span>private cab se, saare loops mila ke</span></div>
+    <div class="fact"><b>2 trains</b><span>Kanpur se Ahmedabad aur wapas, ~24 ghante har taraf</span></div>
+    <div class="fact"><b>3 must-do mandir</b><span>Dwarkadhish, Nageshwar, Somnath</span></div>
+  </div>
+
+  <h2>Raste ke mashhoor shehar</h2>
+  <p class="lede">Kahan ruko, kahan thoda dekho, aur kaun se mashhoor shehar bas raste mein aayenge.</p>
+  <div class="cities" id="cities"></div>
+
+  <h2>Day-by-day plan</h2>
+  <div class="days" id="days"></div>
+
+  <h2>Kaunsi jagah, din ke kis time pe</h2>
+  <p class="lede">Har jagah ka best waqt aur zaroori timing note.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Jagah</th><th>Best time</th><th>Kyun</th></tr></thead>
+      <tbody>
+        <tr><td>Sabarmati Ashram</td><td>Subah 9 se 11 baje</td><td>Subah shaanti aur kam bheed.</td></tr>
+        <tr><td>Adalaj Stepwell</td><td>Subah 8 se 10 ya shaam 4 ke baad</td><td>Dopahar ki garmi se bacho; timings check karo.</td></tr>
+        <tr><td>Statue of Unity</td><td>Subah 9 se 10 baje tak pahunch jao</td><td>Subah view clear, line chhoti. Monday band; laser show ke liye Kevadia mein raat rukna hoga.</td></tr>
+        <tr><td>Bhuj ke mahal (Aina Mahal, Prag Mahal)</td><td>Subah 10 se dopahar 1 baje</td><td>Kuch hisse dopahar mein band hote hain; timings check karo.</td></tr>
+        <tr><td>White Rann <span class="uniq">Khaas</span></td><td>Sunset (~6 baje) ya sunrise (6:30 se 7:30)</td><td>Rang sunrise/sunset pe behtareen; poornima khaas. Dopahar se bacho; sunset pe camel cart ride.</td></tr>
+        <tr><td>Rann Utsav ki shaam <span class="uniq">Khaas</span></td><td>Raat 7 baje ke baad</td><td>Folk music aur garba, sirf utsav dates par.</td></tr>
+        <tr><td>Dwarkadhish Mandir</td><td>Subah 6:30 se 9 baje</td><td>Subah darshan/mangala aarti; dopahar band. Shaam aarti ~7; dhwaja time check karo.</td></tr>
+        <tr><td>Gomti Ghat</td><td>Subah ya sunset</td><td>Thandi hawa aur shaant nazara.</td></tr>
+        <tr><td>Nageshwar Jyotirlinga</td><td>Subah 7 se 10 baje</td><td>Subah kam bheed; dopahar band ho sakta hai.</td></tr>
+        <tr><td>Bet Dwarka (Sudarshan Setu / ferry) <span class="uniq">Khaas</span></td><td>Subah 10 se dopahar 1 baje</td><td>Setu easy option; boat aur weather Okha jetty par confirm karo.</td></tr>
+        <tr><td>Dwarka ya Shivrajpur beach <span class="uniq">Khaas</span></td><td>Sunset, 5:30 se 6:30</td><td>Samundari sunset ke liye; dopahar ki dhoop se bacho.</td></tr>
+        <tr><td>Porbandar, Kirti Mandir</td><td>Subah 9 se 11 baje</td><td>Quick 45-minute stop.</td></tr>
+        <tr><td>Somnath Mandir</td><td>Subah 6 se 9 ya shaam aarti (~7)</td><td>Subah kam line; shaam ko samundar ke saath sundar view.</td></tr>
+        <tr><td>Somnath Light & Sound show <span class="uniq">Khaas</span></td><td>Raat 8 baje ke aaspaas</td><td>Samundar ke paas mandir ki kahani; timings check karo.</td></tr>
+        <tr><td>Triveni Sangam, Bhalka Tirth</td><td>Subah ya sunset</td><td>Dopahar ki garmi se bacho.</td></tr>
+        <tr><td>Gir Safari <span class="uniq">Khaas</span></td><td>Shaam 3 se 6; subah 6:30 se 9:30</td><td>Permit pehle book; slot, season aur reporting time confirm karo.</td></tr>
+        <tr><td>Jamnagar: Bala Hanuman, Lakhota Lake</td><td>Lunch ke time ya shaam</td><td>Bala Hanuman mein 24-hour Ram Dhun; shaam ko lake view achha.</td></tr>
+        <tr><td>Old city Ahmedabad (Teen Darwaza, Jama Masjid)</td><td>Shaam 4:30 se 5:45</td><td>Shaam ki roshni mein jaali aur gates behtar dikhte hain.</td></tr>
+        <tr><td>Sabarmati Riverfront</td><td>Sunset, 5:45 se 7</td><td>Shaam ki walk aur lights.</td></tr>
+        <tr><td>Manek Chowk <span class="uniq">Khaas</span></td><td>Raat 8:30 ke baad</td><td>Raat ko street-food market lagta hai.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Drive ka time ek nazar mein</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Safar</th><th>Doori</th><th>Drive time</th></tr></thead>
+      <tbody>
+        <tr><td>Ahmedabad se Statue of Unity (ek taraf)</td><td>~200 km</td><td>3.5 se 4 ghante</td></tr>
+        <tr><td>Ahmedabad se Bhuj</td><td>~340 km</td><td>5.5 se 6 ghante</td></tr>
+        <tr><td>Bhuj se Dhordo (White Rann)</td><td>~80 km</td><td>1.5 ghante</td></tr>
+        <tr><td>Dhordo se Dwarka (Bhuj, Jamnagar ke raaste)</td><td>~450 km</td><td>8 ghante</td></tr>
+        <tr><td>Dwarka se Nageshwar</td><td>~17 km</td><td>35 minute</td></tr>
+        <tr><td>Nageshwar se Okha (Bet Dwarka)</td><td>~20 km</td><td>30 minute</td></tr>
+        <tr><td>Dwarka se Somnath (Porbandar ke raaste)</td><td>~235 km</td><td>4.5 se 5 ghante</td></tr>
+        <tr><td>Somnath se Sasan Gir</td><td>~50 km</td><td>1.25 ghante</td></tr>
+        <tr><td>Sasan Gir se Ahmedabad (Junagadh, Rajkot ke raaste)</td><td>~380 km</td><td>7 ghante</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Booking se pehle</h2>
+  <div class="notes">
+    <div class="note"><h4>Optional shortcut: Vadodara utro</h4><p>Train Vadodara rukti ho toh wahan utarne se Statue of Unity ka drive chhota hoga. Stop aur timing IRCTC par check karo; isse Ahmedabad-based Day 2–3 plan badlega.</p></div>
+    <div class="note"><h4>Best mahine</h4><p>November se February mausam thanda-sukha; Rann Utsav dates har saal check karo (2026–27 dates confirm).</p></div>
+    <div class="note"><h4>Start ka din chuno</h4><p>Schedule ke mutabik Kanpur ~01:05 aur return ~23:10. Sunday start se Statue of Unity Monday ko nahi padega. Current timings IRCTC par check karo.</p></div>
+    <div class="note"><h4>Cab lo, khud drive nahi</h4><p>Day 3–9 ke liye driver wali cab lo. Day 4, 5, 9 long drives hain; jaldi niklo aur raat ki highway driving se bacho.</p></div>
+    <div class="note"><h4>Mandir ke niyam</h4><p>Saleeqe ke kapde pehno. Dwarkadhish/Somnath mein phone-bag restrictions ho sakti hain; cloakroom aur timings pehle check karo.</p></div>
+    <div class="note"><h4>Pehle book karo</h4><p>Train dates pakki hote hi Statue tickets, White Rann permit/tent aur Gir safari book karo.</p></div>
+  </div>
+
+  <footer>Doori aur time road ke andaaze hain. Train ke time aur stops third-party schedules se hain, toh IRCTC pe confirm karo. Mandir aur monument ke timing badalte rehte hain, jaane se pehle check kar lo.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var VW=680,VH=540,ASP=VW/VH;
+  function proj(p){return [(p[0]-68)*95+20,(24.9-p[1])*100+20];}
+  function poly(pts){return pts.map(function(p){var q=proj(p);return q[0].toFixed(1)+","+q[1].toFixed(1);}).join(" ");}
+  function smooth(pts){
+    var p=pts.map(proj),d="M"+p[0][0].toFixed(1)+","+p[0][1].toFixed(1);
+    for(var i=0;i<p.length-1;i++){
+      var p0=p[i-1]||p[i],p1=p[i],p2=p[i+1],p3=p[i+2]||p2;
+      var c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6];
+      var c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];
+      d+="C"+c1[0].toFixed(1)+","+c1[1].toFixed(1)+" "+c2[0].toFixed(1)+","+c2[1].toFixed(1)+" "+p2[0].toFixed(1)+","+p2[1].toFixed(1);
+    }
+    return d;
+  }
+  var NS="http://www.w3.org/2000/svg";
+  function el(name,attrs,parent){var e=document.createElementNS(NS,name);for(var k in attrs){e.setAttribute(k,attrs[k]);}if(parent)parent.appendChild(e);return e;}
+  var svg=document.getElementById("map");
+
+  var mainland=[[70.8,23.15],[71.25,23.4],[71.35,23.8],[71.2,24.15],[71.5,24.5],[72.2,24.65],[72.85,24.4],[73.4,24.15],[73.75,23.8],[74.1,23.6],[74.2,23.1],[74.4,22.8],[74.15,22.4],[74.3,22.1],[73.95,21.95],[73.9,21.55],[73.8,21.1],[73.75,20.8],[73.5,20.4],[73.1,20.15],[72.8,20.2],[72.8,20.5],[72.7,20.9],[72.65,21.2],[72.6,21.7],[72.55,22.1],[72.62,22.3],[72.45,22.4],[72.2,22.25],[72.1,22.0],[72.15,21.77],[72.2,21.4],[72.0,21.35],[71.75,21.05],[71.38,20.87],[71.0,20.72],[70.7,20.78],[70.37,20.86],[70.1,21.1],[69.97,21.25],[69.6,21.62],[69.37,21.85],[69.2,22.0],[68.96,22.2],[68.95,22.4],[69.07,22.48],[69.2,22.4],[69.6,22.3],[69.83,22.43],[70.05,22.5],[70.3,22.7],[70.45,22.95],[70.6,23.08]];
+  var kutch=[[70.25,23.03],[70.6,23.28],[70.85,23.55],[70.6,23.9],[70.1,23.96],[69.7,24.0],[69.2,23.95],[68.8,23.88],[68.5,23.68],[68.62,23.35],[68.9,23.1],[69.15,22.95],[69.4,22.84],[69.8,22.9]];
+  var rann=[[68.3,23.75],[68.5,24.15],[69.3,24.35],[70.3,24.3],[71.0,24.3],[71.3,23.95],[70.95,23.6],[70.7,23.85],[70.1,23.95],[69.5,23.92],[68.9,23.9],[68.5,23.7]];
+  el("polygon",{points:poly(rann),"class":"rann"},document.getElementById("rannG"));
+  el("polygon",{points:poly(mainland),"class":"land"},document.getElementById("landG"));
+  el("polygon",{points:poly(kutch),"class":"land"},document.getElementById("landG"));
+
+  var sl=document.getElementById("seaLabels");
+  function seaText(t,x,y){var e=el("text",{x:x,y:y,"class":"sea-label"},sl);e.textContent=t;}
+  seaText("Arabian Sea",40,500);
+  seaText("Gulf of Khambhat",492,360);
+  seaText("Great Rann of Kutch",150,70);
+  seaText("(White Rann)",170,86);
+  seaText("Gulf of Kutch",268,238);
+
+  var C={temple:"#d98e04",sight:"#17806f",city:"#1f3f66",via:"#6b7a8c"};
+  var pins=[
+    {n:"Ahmedabad",ll:[72.58,23.02],t:"city",dx:-12,dy:20,a:"end",r:7},
+    {n:"Statue of Unity",ll:[73.72,21.84],t:"sight",dx:-10,dy:-8,a:"end",r:7},
+    {n:"Bhuj",ll:[69.67,23.25],t:"city",dx:11,dy:16,a:"start",r:6},
+    {n:"White Rann, Dhordo",ll:[69.7,23.85],t:"sight",dx:11,dy:-6,a:"start",r:7},
+    {n:"Dwarka",ll:[68.97,22.24],t:"temple",dx:-6,dy:24,a:"start",r:8},
+    {n:"Nageshwar",ll:[69.08,22.34],t:"temple",dx:12,dy:-4,a:"start",r:6},
+    {n:"Somnath",ll:[70.4,20.89],t:"temple",dx:-12,dy:5,a:"end",r:8},
+    {n:"Sasan Gir",ll:[70.6,21.17],t:"sight",dx:12,dy:4,a:"start",r:6},
+    {n:"Vadodara",ll:[73.18,22.31],t:"via",dx:9,dy:4,a:"start",r:4,fs:11.5},
+    {n:"Jamnagar",ll:[70.06,22.47],t:"via",dx:8,dy:-7,a:"start",r:4,fs:11.5},
+    {n:"Rajkot",ll:[70.8,22.3],t:"via",dx:8,dy:4,a:"start",r:4,fs:11.5},
+    {n:"Porbandar",ll:[69.6,21.64],t:"via",dx:8,dy:4,a:"start",r:4,fs:11.5},
+    {n:"Junagadh",ll:[70.46,21.52],t:"via",dx:8,dy:-3,a:"start",r:4,fs:11.5},
+    {n:"Kanpur (UP)",ll:[74.65,24.82],t:"via",dx:-11,dy:4,a:"end",r:7}
+  ];
+  var pg=document.getElementById("pinG"),pinRefs=[];
+  pins.forEach(function(p){
+    var q=proj(p.ll);
+    var c=el("circle",{cx:q[0],cy:q[1],r:p.r,fill:C[p.t],stroke:"#fff","stroke-width":2},pg);
+    var t=el("text",{x:q[0]+p.dx,y:q[1]+p.dy,"text-anchor":p.a,"class":"pin-label"},pg);t.textContent=p.n;
+    pinRefs.push({c:c,t:t,q:q,p:p});
+  });
+  var kq=proj([74.65,24.82]),ahd=proj([72.58,23.02]);
+
+  /* ---------- trip data (Hinglish). items: [time, text, unique?] ---------- */
+  var HOLD=3.2,CAM=1.0;
+  var days=[
+    {d:1,c:"#6b7a8c",title:"Kanpur se Ahmedabad, train se",short:"Kanpur se Ahmedabad",stat:"Train, ~24 ghante",hud:"Raat se shuru, poora din train mein",travel:"~1,000 km · train ~24 ghante",ico:"\uD83D\uDE86",dur:2.6,
+     path:[[74.65,24.82],[74.0,24.0],[73.2,23.4],[72.58,23.02]],
+     via:"Aksar Agra, Kota, Ratlam aur Vadodara. Apni train ki stoppage list check karo.",
+     best:"",
+     items:[["01:05","Kanpur Central se Sabarmati Express pakdo. Ahmedabad Junction pe agli raat ~00:55 pe pahunchti hai (third-party schedule, IRCTC pe confirm karo)."],["Poora din","Snacks, power bank aur halki jacket rakho. Rann ki raatein thandi hoti hain."]],
+    tip:"3A ya 2A jitni jaldi ho sake book karo. Wapsi ki train Ahmedabad se raat 23:10 ki hai.",
+    links:[["IRCTC train booking","https://www.irctc.co.in/nget/train-search"]]},
+    {d:2,c:"#1f3f66",title:"Ahmedabad: aaram wala pehla din",short:"Ahmedabad",stat:"Shehar, koi lambi drive nahi",hud:"Neend, Ashram aur Adalaj, aaram se",travel:"Local cab: ~40 km · ~1.5–2 ghante driving",ico:"\uD83C\uDFD9\uFE0F",dur:0,path:null,
+     view:[[72.58,23.02]],
+     via:"Ahmedabad (India ka pehla UNESCO World Heritage City) aur Adalaj.",
+     best:"Ashram subah ke time, Adalaj subah ya 4 baje ke baad.",
+    items:[["00:55","Station pe utro, paas ke hotel mein check-in karo aur so jao."],["11:00 am","Sabarmati Ashram (Gandhi ji ka ashram). Subah ka time best hai: shaanti aur bheed kam."],["1:30 pm","Gujarati thali lunch aur thoda aaram."],["4:00 pm","Adalaj Stepwell (~20 km). Dopahar ki garmi se bacho."],["Raat","Halka khana aur jaldi neend, kal 6 baje nikalna hai."]],
+    tip:"Aaj raat hi Day 3 se 9 ke liye cab aur driver confirm kar lo. Adalaj ka entry ticket aam taur par site par milta hai; online booking link listed nahi hai.",
+    links:[["Sabarmati Ashram official site","https://www.gandhiashram.org/"],["Gujarat Tourism","https://www.gujarattourism.com/"]]},
+    {d:3,c:"#d1495b",title:"Statue of Unity, ek din ka trip",short:"Ahmedabad se Statue of Unity aur wapas",stat:"~400 km, 8 ghante drive",hud:"Ahmedabad se aana-jaana",travel:"~400 km round trip · ~8 ghante driving",ico:"\uD83D\uDE97",dur:2.8,
+     path:[[72.58,23.02],[72.95,22.55],[73.18,22.31],[73.45,22.05],[73.72,21.84],[73.55,22.15],[73.3,22.55],[72.95,22.9],[72.58,23.02]],
+     via:"Raste mein Vadodara (Laxmi Vilas Palace), phir Kevadia.",
+     best:"Subah 9 se 10 baje tak Statue pe pahunch jao.",
+     items:[["6:00 am","Ahmedabad se nikalo. Kevadia ~4 ghante door hai. Chai-nashta raste mein."],["10:00 am","Statue of Unity: 153 m ki viewing gallery, museum aur Sardar Sarovar Dam ka view. Subah mein view saaf aur line chhoti."],["1:30 pm","Kevadia mein lunch."],["3:00 pm","Wapsi. Dhoop aur bheed badhne se pehle nikal jao."],["7:30 pm","Ahmedabad wapas, dinner aur neend."]],
+    tip:"E-ticket online lo. Monday ko normally band hai, toh ek din pehle check karo. Laser show dekhna ho toh Kevadia mein raat rukna padega, jo is plan mein nahi hai.",
+    links:[["Statue of Unity official site","https://www.statueofunity.in/"],["Statue of Unity ticket booking","https://www.soutickets.in/"]]},
+    {d:4,c:"#e08e2b",title:"Ahmedabad se Bhuj aur White Rann",short:"Ahmedabad, Bhuj aur Dhordo",stat:"~420 km, 7.5 ghante",hud:"Bhuj ke mahal aur Rann ka sunset",travel:"~420 km · ~7.5 ghante driving",ico:"\uD83D\uDE97",dur:3.0,
+     path:[[72.58,23.02],[72.04,23.12],[71.47,22.99],[70.8,23.15],[70.35,23.28],[70.03,23.11],[69.67,23.25],[69.75,23.55],[69.7,23.85]],
+     via:"Viramgam, Surendranagar side, Maliya, Bhachau, Bhuj, phir Dhordo.",
+     best:"Bhuj ke mahal dopahar se pehle; White Rann sunset se thoda pehle.",
+     items:[["5:30 am","Ahmedabad se niklo. Bhuj tak ~5.5 se 6 ghante; chai-break raste mein."],["11:30 am","Bhuj: Aina Mahal aur Prag Mahal dekho, phir lunch. Timing confirm karo."],["2:30 pm","Dhordo ke liye niklo (~1.5 ghante); tent city check-in."],["4:30 pm","White Rann pe sunset dekho; camel cart ride sunset ke aaspaas.",1],["Raat","Rann Utsav ka folk music aur garba, agar utsav chal raha ho.",1]],
+     tip:"Yeh din packed hai; driver aur breaks pehle se arrange karo. White Rann permit/ID aur Rann Utsav tent pehle book karo. Bhuj ke mahalon ka ticket aam taur par counter par milta hai.",
+     links:[["White Rann e-permit","https://www.rannpermit.gujarat.gov.in/"],["Rann Utsav tent booking","https://www.rannutsav.com/"],["Gujarat Tourism","https://www.gujarattourism.com/"]]},
+    {d:5,c:"#17806f",title:"Rann sunrise, phir Dwarka",short:"Dhordo se Dwarka",stat:"~450 km, 8 ghante",hud:"Trip ki sabse lambi drive",travel:"~450 km · ~8 ghante driving",ico:"\uD83D\uDE97",dur:3.0,
+     path:[[69.7,23.85],[69.67,23.25],[70.13,23.08],[70.7,23.05],[70.55,22.75],[70.06,22.47],[69.65,22.2],[68.97,22.24]],
+     via:"Bhuj, Gandhidham, Jamnagar, Khambhalia, Dwarka.",
+     best:"White Rann sunrise 6:30 se 7:30; nashta karke 8:30 tak drive shuru.",
+     items:[["6:30 am","White Rann pe sunrise: narm roshni aur thandi hawa.",1],["8:30 am","Nashta karke Dwarka ke liye niklo; beech mein breaks aur lunch rakho."],["1:00 pm","Jamnagar mein lunch-stop. Time ho toh Bala Hanuman ya Lakhota Lake ka chhota stop."],["6:30 pm","Dwarka pahunchkar check-in aur aaram."]],
+     tip:"Sabse lambi drive hai. Sunrise ke baad samay par niklo, breaks lo aur andhere mein highway drive avoid karo.",
+     links:[["White Rann e-permit","https://www.rannpermit.gujarat.gov.in/"]]},
+    {d:6,c:"#2f6fb3",title:"Dwarkadhish, Nageshwar aur Bet Dwarka",short:"Dwarka, Nageshwar aur Bet Dwarka",stat:"~110 km, local",hud:"Aapke 3 must-do mandiron mein se 2",travel:"~110 km local loop · ~3 ghante driving",ico:"\uD83D\uDED5",dur:2.2,
+     path:[[68.97,22.24],[69.08,22.34],[69.12,22.47],[69.02,22.42],[68.93,22.3],[68.97,22.24]],
+     via:"Dwarka, Nageshwar, Okha, Bet Dwarka, phir wapas Dwarka.",
+     best:"Mandir subah mein, Bet Dwarka late morning, beach sunset pe.",
+     items:[["6:30 am","Dwarkadhish Mandir (Jagat Mandir) ki subah ki darshan: line chhoti, mangala aarti ka time. Phir Gomti Ghat pe 15 minute."],["8:30 am","Nashta aur Rukmini Devi Mandir (~2 km)."],["9:30 am","Nageshwar Jyotirlinga (~17 km). Subah mein bheed kam, bahar badi Shiv ji ki murti."],["11:30 am","Okha se Bet Dwarka: Sudarshan Setu bridge se, ya agar chal rahi ho toh boat se. Boat ka alag maza hai. Mausam aur timing pehle confirm karo.",1],["2:30 pm","Dwarka wapas, lunch aur aaram. Dopahar mein mandir band bhi rehte hain."],["5:30 pm","Dwarka ya Shivrajpur beach pe sunset.",1]],
+    tip:"Dwarkadhish aur Nageshwar darshan ke liye aam taur par advance ticket nahi chahiye. Bet Dwarka ke liye bridge route rakho; boat chalne aur ticket ki jaankari Okha jetty par lo.",
+    links:[["Dwarkadhish Temple official site","https://www.dwarkadhish.org/"],["Gujarat Tourism","https://www.gujarattourism.com/"]]},
+      {d:7,c:"#8a5fbf",title:"Dwarka se Somnath, Porbandar ke raaste",short:"Dwarka se Somnath",stat:"~235 km, 4.5 se 5 ghante",hud:"Saurashtra ke coast ke saath",travel:"~235 km · ~4.5–5 ghante driving",ico:"\uD83D\uDE97",dur:2.8,
+     path:[[68.97,22.24],[69.27,21.95],[69.6,21.64],[69.97,21.28],[70.22,21.03],[70.4,20.89]],
+     via:"Porbandar (Gandhi ji ka janmasthan), Madhavpur, Chorwad, Veraval, phir Somnath.",
+     best:"Kirti Mandir subah 9 se 11, Somnath shaam ko, show raat ko.",
+     items:[["7:30 am","Dwarka se nikalo."],["10:00 am","Porbandar: Kirti Mandir (Gandhi ji ka janmasthan), ~45 minute."],["12:30 pm","Raste mein lunch (Madhavpur ke aaspaas)."],["3:00 pm","Somnath pahunch, check-in aur aaram."],["5:00 pm","Somnath Jyotirlinga darshan: shaam ko samundar ke saath mandir ka nazara. Aarti ~7 baje."],["8:00 pm","Light & Sound show: mandir ki kahani samundar ke saamne (timing confirm karo).",1]],
+    tip:"Somnath darshan aam taur par free hai; special pooja ya show ki booking/timing official site par check karo. Phone aur bag cloakroom mein rakho.",
+    links:[["Somnath Temple official site","https://somnath.org/"],["Gujarat Tourism","https://www.gujarattourism.com/"]]},
+      {d:8,c:"#3b9c5a",title:"Somnath se Sasan Gir, safari",short:"Somnath se Sasan Gir",stat:"~50 km, 1.25 ghante",hud:"Subah Somnath, shaam Gir safari",travel:"~50 km · ~1.25 ghante driving",ico:"\uD83D\uDE97",dur:1.8,
+    path:[[70.4,20.89],[70.5,21.05],[70.6,21.17]],
+    via:"Somnath, Veraval, Talala, Sasan Gir.",
+    best:"Somnath subah 6 se 7; Gir safari shaam 3 se 6 ya subah 6:30 se 9:30.",
+    items:[["6:30 am","Somnath mein subah darshan, phir Triveni Sangam aur Bhalka Tirth (~5 km)."],["11:00 am","Sasan Gir ke liye niklo (~1.25 ghante). Check-in aur aaram."],["3:00 pm","Gir National Park mein jeep safari. Permit pehle book karo; sher dikhna pakka nahi.",1],["Raat","Sasan Gir mein ruko."]],
+    tip:"Safari slot pehle book karo aur reporting time confirm karo. Park aam taur par monsoon ke dauran band rehta hai; current season dates official portal par check karo.",
+    links:[["Gir safari permit booking","https://girlion.gujarat.gov.in/"],["Gujarat Tourism","https://www.gujarattourism.com/"]]},
+      {d:9,c:"#c0568a",title:"Gir se Ahmedabad, raat ki train se",short:"Sasan Gir se Ahmedabad",stat:"~380 km, 7 ghante",hud:"Loop poora, train se pehle buffer",travel:"~380 km · ~7 ghante driving",ico:"\uD83D\uDE97",dur:2.8,
+    path:[[70.6,21.17],[70.46,21.52],[70.8,22.3],[71.2,22.4],[71.8,22.6],[72.3,22.85],[72.58,23.02]],
+    via:"Junagadh, Rajkot, Limbdi, Ahmedabad.",
+    best:"Gir se subah niklo. Ahmedabad ke old city sights sirf jaldi pahunchne par.",
+    items:[["7:00 am","Sasan Gir se Ahmedabad ke liye niklo. Lunch Rajkot ya raste mein."],["2:00–4:00 pm","Traffic ke hisaab se Ahmedabad pahunchne ka andaaza."],["4:30 pm","Agar waqt ho toh old city: Teen Darwaza, Jama Masjid aur Sidi Saiyyed ni Jali."],["5:45 pm","Sabarmati Riverfront sunset walk, sirf buffer theek ho toh.",1],["8:30 pm","Manek Chowk optional; delay ya thakaan ho toh seedha station jao.",1],["10:30 pm","Ahmedabad Junction (Kalupur) pahunchkar platform check karo; train ~23:10 (IRCTC pe confirm karo)."]],
+    tip:"Gir se Ahmedabad ki drive aur raat ki train ek hi din hai. City stops optional rakho aur train se pehle kam se kam 2 ghante station buffer bachao.",
+    links:[["IRCTC train booking","https://www.irctc.co.in/nget/train-search"]]},
+    {d:10,c:"#6b7a8c",title:"Kanpur wapas, train se",short:"Ahmedabad se Kanpur",stat:"Train, ~22 ghante",hud:"Der raat tak ghar",travel:"~1,000 km · train ~22 ghante",ico:"\uD83D\uDE86",dur:2.6,
+     path:[[72.58,23.02],[73.3,23.5],[74.0,24.15],[74.65,24.82]],
+     via:"Aksar Vadodara, Ratlam, Kota aur Agra.",
+     best:"",
+     items:[["Poora din","Aaram, photos edit, chai."],["~23:25","Kanpur Central pahunch (third-party schedule, IRCTC pe confirm karo)."]],
+    tip:"Ahmedabad se thepla, khakhra aur fafda rakh lo, train mein achhe rehte hain.",
+    links:[["IRCTC train booking","https://www.irctc.co.in/nget/train-search"]]}
+  ];
+
+  var FULL={cx:VW/2,cy:VH/2,w:VW};
+  function viewFor(s){
+    var pts=(s.path||s.view).map(proj);
+    var x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+    pts.forEach(function(p){x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);y0=Math.min(y0,p[1]);y1=Math.max(y1,p[1]);});
+    var pad=80,w=Math.max(x1-x0+2*pad,250),h=Math.max(y1-y0+2*pad,170);
+    if(w/h>ASP)h=w/ASP;else w=h*ASP;
+    if(w>VW)w=VW;
+    return {cx:(x0+x1)/2,cy:(y0+y1)/2,w:w};
+  }
+  var steps=days.slice();
+  steps.push({overview:true,d:0,c:"#d98e04",short:"Poora loop",stat:"Gujarat mein 8 din",hud:"~2,050 km cab se, plus do train safar",travel:"Road loop: ~2,050 km · train legs: ~1,000 km each side",dur:0,
+    via:"Kanpur, Ahmedabad, Statue of Unity, White Rann, Dwarka, Somnath, Gir aur wapas."});
+
+  var gg=document.getElementById("ghostG"),rg=document.getElementById("routeG");
+  var acc=0;
+  steps.forEach(function(s){
+    s.start=acc;acc+=CAM+s.dur+HOLD;s.end=acc;
+    s.view=s.overview?FULL:viewFor(s);
+    if(s.path){
+      var d=smooth(s.path);
+      el("path",{d:d,"class":"ghost"},gg);
+      var p=el("path",{d:d,"class":"route",stroke:s.c},rg);
+      s.el=p;s.len=p.getTotalLength();
+      p.style.strokeDasharray=s.len;p.style.strokeDashoffset=s.len;
+    }
+  });
+  var TOTAL=acc;
+
+  var mg=document.getElementById("markerG");
+  var pulse=el("circle",{r:9,fill:"none",stroke:"#d98e04","stroke-width":2,"class":"pulse"},mg);
+  var mdot=el("circle",{r:14,fill:"#ffffff",stroke:"#12202b","stroke-width":2},mg);
+  var mtxt=el("text",{"text-anchor":"middle","dominant-baseline":"central","font-size":"16",x:0,y:1},mg);
+  mtxt.textContent="\uD83D\uDE86";
+
+  /* ---------- cities ---------- */
+  var cities=[
+    {n:"Ahmedabad",b:"stay",l:"Ruko",day:"Day 2, 3, 9",t:"UNESCO World Heritage City: Sabarmati Ashram, purane gate, Manek Chowk ka raat ka khana, Adalaj Stepwell."},
+    {n:"Vadodara",b:"pass",l:"Raste mein",day:"Day 3, aur train mein",t:"Laxmi Vilas Palace ka shehar. Statue of Unity ke raste mein jaldi nikle ho toh chhota stop ban sakta hai."},
+    {n:"Bhuj",b:"stop",l:"Dekho",day:"Day 4",t:"Kutch ka mukhya shehar. Aina Mahal, Prag Mahal aur White Rann ka darwaza."},
+    {n:"Jamnagar",b:"stop",l:"Lunch stop",day:"Day 5",t:"Bala Hanuman Mandir, Lakhota Lake aur Bandhani kapde ke liye mashhoor."},
+    {n:"Dwarka",b:"stay",l:"Ruko",day:"Day 5, 6",t:"Dwarkadhish Mandir, Char Dham mein se ek, Gomti aur Arabian Sea ke kinare."},
+    {n:"Okha aur Bet Dwarka",b:"stop",l:"Dekho",day:"Day 6",t:"Bandargaah aur tapu par shrine, ab Sudarshan Setu bridge se judi hui."},
+    {n:"Porbandar",b:"stop",l:"Chhota stop",day:"Day 7",t:"Gandhi ji ka janmasthan. Kirti Mandir coast road pe shaant stop hai."},
+    {n:"Somnath aur Veraval",b:"stay",l:"Ruko",day:"Day 7, 8",t:"Pehla Jyotirlinga, seedha samundar ke kinare. Veraval paas ka machhli bandargaah hai."},
+    {n:"Sasan Gir",b:"stay",l:"Ruko",day:"Day 8",t:"Gir National Park ka darwaza, Asiatic sher ka ekmatra jungli ghar."},
+    {n:"Junagadh",b:"pass",l:"Raste mein",day:"Day 9",t:"Girnar pahaad aur Uparkot Fort. Train wale din sightseeing sirf waqt bache toh."},
+    {n:"Rajkot",b:"pass",l:"Raste mein",day:"Day 9",t:"Saurashtra ka mashhoor shehar. Traffic aur break ke liye extra waqt rakho."},
+  ];
+  var cg=document.getElementById("cities");
+  cities.forEach(function(c){
+    var d=document.createElement("div");d.className="city";
+    d.innerHTML='<h4>'+c.n+' <span class="badge '+(c.b==="pass"?"":c.b)+'">'+c.l+'</span></h4><p>'+c.t+'</p><small>'+c.day+'</small>';
+    cg.appendChild(d);
+  });
+
+  /* ---------- cards + chips ---------- */
+  var daysEl=document.getElementById("days"),chipsEl=document.getElementById("chips");
+  steps.forEach(function(s){
+    if(!s.overview){
+      var a=document.createElement("article");a.className="day";a.id="day"+s.d;a.style.setProperty("--c",s.c);
+      var must=(s.d===6||s.d===7||s.d===8)?'<span class="must">Must-do</span>':"";
+      var lis=s.items.map(function(x){return "<li><time>"+x[0]+"</time><span>"+x[1]+(x[2]?' <span class="uniq">Khaas</span>':"")+"</span></li>";}).join("");
+      var best=s.best?'<p class="best"><b>Best time:</b> '+s.best+'</p>':"";
+      var links=s.links?'<p class="official-links"><b>Websites:</b> '+s.links.map(function(link){return '<a href="'+link[1]+'" target="_blank" rel="noopener noreferrer">'+link[0]+'</a>';}).join(' · ')+'</p>':"";
+      a.innerHTML='<div class="day-head"><span class="day-n">Day '+s.d+'</span><h3>'+s.title+must+'</h3><span class="day-stat">'+s.stat+'</span></div><p class="via"><b>Raste mein:</b> '+s.via+'</p>'+best+'<ul>'+lis+'</ul><p class="tip">'+s.tip+'</p>'+links;
+      daysEl.appendChild(a);s.card=a;
+      var b=document.createElement("button");b.type="button";b.className="chip";b.textContent="Day "+s.d;
+      b.addEventListener("click",function(){playDay(s);});
+      chipsEl.appendChild(b);s.chip=b;
+    }
+  });
+
+  /* ---------- timeline ---------- */
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var T=0,playing=false,last=0,activeIdx=-1,frameId=null,autoplayTimer=null,playEnd=TOTAL;
+  var mapZoom=1,pinchStartDistance=0,pinchStartZoom=1;
+  var hudDay=document.getElementById("hudDay"),hudMeta=document.getElementById("hudMeta"),hudDistance=document.getElementById("hudDistance");
+  function ease(x){x=Math.max(0,Math.min(1,x));return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;}
+  function clamp01(x){return Math.max(0,Math.min(1,x));}
+  function render(){
+    var idx=0;
+    for(var i=0;i<steps.length;i++){if(T>=steps[i].start)idx=i;}
+    var s=steps[idx],local=T-s.start;
+
+    var pv=idx?steps[idx-1].view:FULL,tv=s.view,ct=ease(local/CAM);
+    var cx=pv.cx+(tv.cx-pv.cx)*ct,cy=pv.cy+(tv.cy-pv.cy)*ct,w=(pv.w+(tv.w-pv.w)*ct)/mapZoom,h=w/ASP,k=w/VW;
+    svg.setAttribute("viewBox",(cx-w/2).toFixed(1)+" "+(cy-h/2).toFixed(1)+" "+w.toFixed(1)+" "+h.toFixed(1));
+    svg.style.setProperty("--k",k.toFixed(4));
+
+    steps.forEach(function(d,j){
+      if(!d.el)return;
+      var p=s.overview||j<idx?1:(j===idx?clamp01((local-CAM)/Math.max(d.dur,.01)):0);
+      d.el.style.strokeDashoffset=d.len*(1-(j===idx?ease(p):p));
+      d.el.style.opacity=s.overview?.9:(j===idx?1:.28);
+      d.el.style.strokeWidth=((j===idx?5.6:3.6)*k).toFixed(2)+"px";
+    });
+
+    var pos=ahd,ico=s.ico||"\uD83D\uDE86";
+    if(s.overview){pos=kq;ico="\uD83C\uDFE0";}
+    else if(s.el){
+      var pr=ease(clamp01((local-CAM)/Math.max(s.dur,.01)));
+      var pt=s.el.getPointAtLength(s.len*pr);pos=[pt.x,pt.y];
+    }
+    mg.setAttribute("transform","translate("+pos[0].toFixed(1)+","+pos[1].toFixed(1)+") scale("+k.toFixed(4)+")");
+    mtxt.textContent=ico;
+
+    pinRefs.forEach(function(r){
+      var p=r.p;
+      var labelScale=svg.clientWidth<560?1.6:1;
+      r.c.setAttribute("r",(p.r*k).toFixed(2));
+      r.c.setAttribute("stroke-width",(2*k).toFixed(2));
+      r.t.setAttribute("x",(r.q[0]+p.dx*k).toFixed(1));
+      r.t.setAttribute("y",(r.q[1]+p.dy*k).toFixed(1));
+      r.t.style.fontSize=((p.fs||12.5)*k*labelScale).toFixed(2)+"px";
+      r.t.style.strokeWidth=(3.5*k*labelScale).toFixed(2)+"px";
+    });
+
+    if(idx!==activeIdx){
+      activeIdx=idx;
+      hudDay.textContent=s.overview?"Poori trip: poora loop":"Day "+s.d+": "+s.short;
+      hudMeta.textContent=s.stat+" \u00B7 "+s.hud;
+      hudDistance.textContent=s.travel;
+      steps.forEach(function(x,i){
+        if(x.card)x.card.classList.toggle("active",i===idx);
+        if(x.chip){
+          if(i===idx)x.chip.setAttribute("aria-current","true");else x.chip.removeAttribute("aria-current");
+        }
+      });
+    }
+  }
+  function touchDistance(touches){
+    var deltaX=touches[0].clientX-touches[1].clientX;
+    var deltaY=touches[0].clientY-touches[1].clientY;
+    return Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+  }
+  svg.addEventListener("touchstart",function(event){
+    if(event.touches.length!==2)return;
+    event.preventDefault();
+    if(frameId!==null){cancelAnimationFrame(frameId);frameId=null;}
+    playing=false;
+    pinchStartDistance=touchDistance(event.touches);
+    pinchStartZoom=mapZoom;
+  },{passive:false});
+  svg.addEventListener("touchmove",function(event){
+    if(event.touches.length!==2||!pinchStartDistance)return;
+    event.preventDefault();
+    mapZoom=Math.max(1,Math.min(4,pinchStartZoom*touchDistance(event.touches)/pinchStartDistance));
+    render();
+  },{passive:false});
+  svg.addEventListener("touchend",function(event){
+    if(event.touches.length<2)pinchStartDistance=0;
+  });
+  svg.addEventListener("touchcancel",function(){pinchStartDistance=0;});
+  function frame(ts){
+    if(!playing)return;
+    frameId=null;
+    var dt=Math.min((ts-last)/1000,.1);last=ts;
+    T+=dt;
+    if(T>=playEnd){T=Math.max(0,playEnd-0.001);playing=false;}
+    render();
+    if(playing)frameId=requestAnimationFrame(frame);
+  }
+  function startAnimation(start,end){
+    if(autoplayTimer!==null){clearTimeout(autoplayTimer);autoplayTimer=null;}
+    if(frameId!==null)cancelAnimationFrame(frameId);
+    playing=false;mapZoom=1;T=start;playEnd=end;activeIdx=-1;render();
+    playing=true;last=performance.now();frameId=requestAnimationFrame(frame);
+  }
+  function playDay(s){startAnimation(s.start,s.end);}
+  function playTrip(){startAnimation(0,TOTAL);}
+  function showMap(){
+    if(autoplayTimer!==null){clearTimeout(autoplayTimer);autoplayTimer=null;}
+    if(frameId!==null)cancelAnimationFrame(frameId);
+    playing=false;mapZoom=1;T=steps[steps.length-1].start+CAM+0.01;activeIdx=-1;render();
+  }
+  document.getElementById("mapViewBtn").addEventListener("click",showMap);
+  document.getElementById("overviewBtn").addEventListener("click",playTrip);
+  T=TOTAL-0.001;activeIdx=-1;render();
+})();
+</script>
+</body>
+</html>
